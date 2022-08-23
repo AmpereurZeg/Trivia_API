@@ -418,7 +418,7 @@ The API will return four error types when requests fail:
     - Returns a random questions within the given category,
     if provided, and that is not one of the previous questions, and success value.
 - `curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"quiz_category":{"type":"Sports", "id":"6"}, "previous_questions":[10, 26}'`
-````
+```
 {
   "question": {
     "answer": "Uruguay",
