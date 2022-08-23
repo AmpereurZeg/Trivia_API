@@ -19,8 +19,12 @@ class TriviaTestCase(unittest.TestCase):
             "student", "student", "localhost:5432", self.database_name)
         setup_db(self.app, self.database_path)
 
-        self.new_question = {"question": "Who is the best football player in the world ?",
-                             "answer": "Lionel Messi", "category": 6, "difficulty": 1}
+        self.new_question = {
+            "question": "Who is the best football player in the world ?",
+            "answer": "Lionel Messi",
+            "category": 6,
+            "difficulty": 1
+        }
         # binds the app to the current context
         with self.app.app_context():
             self.db = SQLAlchemy()
@@ -102,8 +106,8 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data["message"], "method not allowed")
 
     def test_get_question_search_with_results(self):
-        res = self.client().post(
-            "/questions/search", json={"searchTerm": "Whose"})
+        res = self.client().post("/questions/search",
+                                 json={"searchTerm": "Whose"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -112,8 +116,8 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(len(data["questions"]), 1)
 
     def test_get_question_search_without_results(self):
-        res = self.client().post(
-            "/questions/search", json={"searchTerm": "Python programming"})
+        res = self.client().post("/questions/search",
+                                 json={"searchTerm": "Python programming"})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -133,9 +137,13 @@ class TriviaTestCase(unittest.TestCase):
 
     def test_get_questions_play_quiz(self):
         res = self.client().post('/quizzes',
-                                 json={'previous_questions': [],
-                                       'quiz_category':
-                                       {'id': '6', 'type': 'Sport'}})
+                                 json={
+                                     'previous_questions': [],
+                                     'quiz_category': {
+                                         'id': '6',
+                                         'type': 'Sports'
+                                     }
+                                 })
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -143,10 +151,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['question']['category'], 6)
 
     def test_404_get_questions_play_quiz(self):
-        res = self.client().post('/quizzes',
-                                 json={
-                                     'previous_questions': []
-                                 })
+        res = self.client().post('/quizzes', json={'previous_questions': []})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
